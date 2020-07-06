@@ -17,6 +17,7 @@ class ErrorCodes(Enum):
     # Room Error Codes (300 - 399)
     ERROR_CODE_ROOM_NOT_FOUND = 300
     ERROR_CODE_ROOM_CONTAINS_WALLS = 301
+    ERROR_CODE_ROOM_ALREADY_EXIST = 302
 
     # Wall Error Codes (400 - 499)
     ERROR_CODE_WALL_NOT_FOUND = 400
