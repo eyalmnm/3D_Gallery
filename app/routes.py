@@ -1,4 +1,3 @@
-from flask import request
 from flask import make_response
 
 from app import app
@@ -62,7 +61,7 @@ def update_room_texture():
         return 'unknown package!!!'
 
 
-@app.route('/get_ceiling_texture', methods=['PUT'])
+@app.route('/get_ceiling_texture', methods=['POST', 'GET'])
 def get_ceiling_texture():
     """
     uuid = fields.Str(required=True)
@@ -91,7 +90,7 @@ def update_ceiling_texture():
         return 'unknown package!!!'
 
 
-@app.route('/get_wall_texture', methods=['PUT'])
+@app.route('/get_wall_texture', methods=['POST', 'GET'])
 def get_wall_texture():
     """
     uuid = fields.Str(required=True)

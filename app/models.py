@@ -130,8 +130,8 @@ class Icon(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)  # ForeignKey User table
     src = db.Column(db.String(512), index=True, unique=True, nullable=False)
-    width = db.Column(db.DECIMAL(), index=False, nullable=False, default=0)
-    height = db.Column(db.DECIMAL(), index=False, nullable=False, default=0)
+    width = db.Column(db.Float(), index=False, nullable=False, default=0)
+    height = db.Column(db.Float(), index=False, nullable=False, default=0)
 
     def __init__(self, user_id, src, width, height):
         self.user_id = user_id
@@ -160,9 +160,9 @@ class Icon(db.Model):
 
 class Texture(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    src = db.Column(db.String(512), index=True, unique=True, nullable=False)
-    width = db.Column(db.DECIMAL(), index=False, nullable=False, default=0)
-    height = db.Column(db.DECIMAL(), index=False, nullable=False, default=0)
+    src = db.Column(db.String(512), index=True, unique=False, nullable=False)
+    width = db.Column(db.Float(), index=False, nullable=False, default=0)
+    height = db.Column(db.Float(), index=False, nullable=False, default=0)
     walls = db.relationship('Wall', backref='texture', lazy='dynamic')
     rooms = db.relationship('Room', backref='texture', lazy='dynamic')
 
@@ -230,9 +230,9 @@ class Wall(db.Model):
     room_id = db.Column(db.Integer(), db.ForeignKey('room.id'), nullable=False)  # ForeignKey Room table
     texture_id = db.Column(db.Integer(), db.ForeignKey('texture.id'), nullable=False)  # ForeignKey Texture table
     name = db.Column(db.String(64), index=True, unique=False, nullable=False)
-    x_pos = db.Column(db.DECIMAL(), index=False, nullable=False, default=0)
-    y_pos = db.Column(db.DECIMAL(), index=False, nullable=False, default=0)
-    z_pos = db.Column(db.DECIMAL(), index=False, nullable=False, default=0)
+    x_pos = db.Column(db.Float(), index=False, nullable=False, default=0)
+    y_pos = db.Column(db.Float(), index=False, nullable=False, default=0)
+    z_pos = db.Column(db.Float(), index=False, nullable=False, default=0)
     paintings = db.relationship('Painting', backref='wall', lazy='dynamic')
 
     def __init__(self, room_id, texture_id, name, x_pos, y_pos, z_pos):
@@ -269,9 +269,9 @@ class Painting(db.Model):
     wall_id = db.Column(db.Integer(), db.ForeignKey('wall.id'), nullable=False)  # ForeignKey Wall table
     name = db.Column(db.String(64), index=True, unique=False, nullable=False)
     detail = db.Column(db.String(1024), index=False, unique=False, nullable=True)
-    x_pos = db.Column(db.DECIMAL(), index=False, nullable=False, default=0)
-    y_pos = db.Column(db.DECIMAL(), index=False, nullable=False, default=0)
-    z_pos = db.Column(db.DECIMAL(), index=False, nullable=False, default=0)
+    x_pos = db.Column(db.Float(), index=False, nullable=False, default=0)
+    y_pos = db.Column(db.Float(), index=False, nullable=False, default=0)
+    z_pos = db.Column(db.Float(), index=False, nullable=False, default=0)
     real_sizes = db.relationship('RealSize', backref='painting', lazy='dynamic')
     pic_sizes = db.relationship('PicSize', backref='painting', lazy='dynamic')
     bg_lights = db.relationship('BgLight', backref='painting', lazy='dynamic')
@@ -312,8 +312,8 @@ class Painting(db.Model):
 class RealSize(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     painting_id = db.Column(db.Integer(), db.ForeignKey('painting.id'), nullable=False)  # ForeignKey Painting table
-    width = db.Column(db.DECIMAL(), index=False, nullable=False, default=0)
-    height = db.Column(db.DECIMAL(), index=False, nullable=False, default=0)
+    width = db.Column(db.Float(), index=False, nullable=False, default=0)
+    height = db.Column(db.Float(), index=False, nullable=False, default=0)
 
     def __init__(self, painting_id, width, height):
         self.painting_id = painting_id
@@ -342,8 +342,8 @@ class RealSize(db.Model):
 class PicSize(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     painting_id = db.Column(db.Integer(), db.ForeignKey('painting.id'), nullable=False)  # ForeignKey Painting table
-    width = db.Column(db.DECIMAL(), index=False, nullable=False, default=0)
-    height = db.Column(db.DECIMAL(), index=False, nullable=False, default=0)
+    width = db.Column(db.Float(), index=False, nullable=False, default=0)
+    height = db.Column(db.Float(), index=False, nullable=False, default=0)
 
     def __init__(self, painting_id, width, height):
         self.painting_id = painting_id
@@ -372,7 +372,7 @@ class PicSize(db.Model):
 class BgLight(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     painting_id = db.Column(db.Integer(), db.ForeignKey('painting.id'), nullable=False)  # ForeignKey Painting table
-    width = db.Column(db.DECIMAL(), index=False, nullable=False, default=0)
+    width = db.Column(db.Float(), index=False, nullable=False, default=0)
     color = db.Column(db.String(16), index=True, nullable=False, default=0)
 
     def __init__(self, painting_id, width, color):
@@ -403,9 +403,9 @@ class FgLight(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     painting_id = db.Column(db.Integer(), db.ForeignKey('painting.id'), nullable=False)  # ForeignKey Painting table
     color = db.Column(db.String(16), index=True, nullable=False, default=0)
-    x_pos = db.Column(db.DECIMAL(), index=False, nullable=False, default=0)
-    y_pos = db.Column(db.DECIMAL(), index=False, nullable=False, default=0)
-    z_pos = db.Column(db.DECIMAL(), index=False, nullable=False, default=0)
+    x_pos = db.Column(db.Float(), index=False, nullable=False, default=0)
+    y_pos = db.Column(db.Float(), index=False, nullable=False, default=0)
+    z_pos = db.Column(db.Float(), index=False, nullable=False, default=0)
 
     def __init__(self, painting_id, color, x_pos, y_pos, z_pos):
         self.painting_id = painting_id

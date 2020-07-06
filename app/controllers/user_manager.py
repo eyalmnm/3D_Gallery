@@ -1,5 +1,6 @@
-from flask import jsonify
 import requests
+from flask import jsonify
+
 from app import db
 from app.config.constants import ErrorCodes
 from app.config.user_status import UserStatus
@@ -62,6 +63,7 @@ def get_user_id_remotely(data):
 def user_login(data):
     username = data.get('username')
     password = data.get('password')
+    user = None
     try:
         user = db.session.query(User).filter_by(username=username).first()
     except Exception as ex:
@@ -79,24 +81,24 @@ def user_login(data):
         return generate_login_failed_response()
 
 
-def user_login(data):
-    username = data.get('username')
-    password = data.get('password')
-    try:
-        user = db.session.query(User).filter_by(username=username).first()
-    except Exception as ex:
-        print(ex)
-    if user and check_hash_password(user.hash_pwd, user.salt, password) and user.status == UserStatus.ADMIN_USER.value:
-        temp_uuid = generate_uuid()
-        session_old = db.session.query(Session).filter_by(email=username)
-        if session_old:
-            session_old.delete()
-        session = Session(user.username, temp_uuid)
-        if session:
-            session.save()
-        return generate_login_success_response(temp_uuid)
-    else:
-        return generate_login_failed_response()
+# def user_login(data):
+#     username = data.get('username')
+#     password = data.get('password')
+#     try:
+#         user = db.session.query(User).filter_by(username=username).first()
+#     except Exception as ex:
+#         print(ex)
+#     if user and check_hash_password(user.hash_pwd, user.salt, password) and user.status == UserStatus.ADMIN_USER.value:
+#         temp_uuid = generate_uuid()
+#         session_old = db.session.query(Session).filter_by(email=username)
+#         if session_old:
+#             session_old.delete()
+#         session = Session(user.username, temp_uuid)
+#         if session:
+#             session.save()
+#         return generate_login_success_response(temp_uuid)
+#     else:
+#         return generate_login_failed_response()
 
 
 @validate_schema(registration_schema)
