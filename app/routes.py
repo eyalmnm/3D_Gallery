@@ -197,7 +197,6 @@ def login_remotely():
         return 'unknown package!!!'
 
 
-
 # ==================================   Room  ==================================
 @app.route('/add_room', methods=['POST'])
 def add_room():
@@ -827,9 +826,6 @@ def check_auth_header_secret():
     return True
     # bearer_header = request.headers.get('Authorization')
     # return 'bearer ' + app.config.get('SECRET_KEY') == bearer_header
-
-
-
 
 # You need to call app.run last, as it blocks execution of anything after it until the server is killed.
 # Preferably, use the flask run command instead.
