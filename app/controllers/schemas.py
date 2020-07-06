@@ -18,11 +18,34 @@ class GetUserIdRemotelySchema(Schema):
     key = fields.Str(required=True)
 
 
+# ==================================   Floor  ==================================
+class AddFloorSchema(Schema):
+    name = fields.Str(required=True)
+    uuid = fields.Str(required=True)
+
+
+class GetFloorByIdSchema(Schema):
+    uuid = fields.Str(required=True)
+    id = fields.Int(required=True)
+
+
+class UpdateFloorByIdSchema(Schema):
+    name = fields.Str(required=True)
+    uuid = fields.Str(required=True)
+    id = fields.Int(required=True)
+
+
+class DeleteFloorByIdSchema(Schema):
+    uuid = fields.Str(required=True)
+    id = fields.Int(required=True)
+
+
 # ==================================   Room  ==================================
 class AddRoomSchema(Schema):
     texture_id = fields.Int(required=True)
     name = fields.Str(required=True)
     uuid = fields.Str(required=True)
+    floor_id = fields.Int(required=True)
 
 
 class GetRoomByIdSchema(Schema):
@@ -35,6 +58,7 @@ class UpdateRoomByIdSchema(Schema):
     id = fields.Int(required=True)
     texture_id = fields.Int(required=True)
     name = fields.Str(required=True)
+    floor_id = fields.Int(required=True)
 
 
 class DeleteRoomByIdSchema(Schema):

@@ -52,6 +52,10 @@ class ErrorCodes(Enum):
     # Global Settings Error Codes (1200 - 1299)
     ERROR_CODE_GLOBAL_SETTINGS_NOT_FOUND = 1200
 
+    # Floor Error Codes (1300 - 1399)
+    ERROR_CODE_FLOOR_ALREADY_EXIST = 1300
+    ERROR_CODE_FLOOR_NOT_FOUND = 1301
+
 
 def enum_to_string(enum):
     return enum.name.lower().replace('_', ' ').replace("cant", "can't").capitalize()

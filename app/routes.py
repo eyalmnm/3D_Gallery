@@ -5,6 +5,7 @@ from app.controllers.bg_light_manager import add_new_bg_light, get_bg_light_by_i
     delete_bg_light_by_id
 from app.controllers.fg_light_manager import add_new_fg_light, get_fg_light_by_id, update_fg_light_by_id, \
     delete_fg_light_by_id
+from app.controllers.floor_manager import add_new_floor, get_floor_by_id, update_floor_by_id, delete_floor_by_id
 from app.controllers.global_settings_manager import save_new_global_settings, get_global_settings_by_id, \
     get_global_settings_data
 from app.controllers.icon_manager import add_new_icon, get_icon_by_id, update_icon_by_id, delete_icon_by_id
@@ -197,6 +198,64 @@ def login_remotely():
         return 'unknown package!!!'
 
 
+# ==================================   Floor  ==================================
+@app.route('/add_room', methods=['POST'])
+def add_floor():
+    """
+    name = fields.Str(required=True)
+    uuid = fields.Str(required=True)
+    :return: {'result_code': 0, 'error_message': '', 'floor_id': floor.id}
+    """
+    if check_auth_header_secret():
+        resp = add_new_floor()
+        return resp
+    else:
+        return 'unknown package!!!'
+
+
+@app.route('/get_floor', methods=['POST', 'GET'])
+def get_floor():
+    """
+    uuid = fields.Str(required=True)
+    id = fields.Int(required=True)
+    :return: {'result_code': 0, 'error_message': '', 'floorData': floor_dict}
+    """
+    if check_auth_header_secret():
+        resp = get_floor_by_id()
+        return resp
+    else:
+        return 'unknown package!!!'
+
+
+@app.route('/update_floor', methods=['PUT'])
+def update_floor():
+    """
+    name = fields.Str(required=True)
+    uuid = fields.Str(required=True)
+    id = fields.Int(required=True)
+    :return: {'result_code': 0, 'error_message': '', 'floor_id': floor.id}
+    """
+    if check_auth_header_secret():
+        resp = update_floor_by_id()
+        return resp
+    else:
+        return 'unknown package!!!'
+
+
+@app.route('/delete_floor', methods=['DELETE'])
+def delete_floor():
+    """
+    uuid = fields.Str(required=True)
+    id = fields.Int(required=True)
+    :return: {'result_code': 0, 'error_message': '', 'floor_id': floor.id}
+    """
+    if check_auth_header_secret():
+        resp = delete_floor_by_id()
+        return resp
+    else:
+        return 'unknown package!!!'
+
+
 # ==================================   Room  ==================================
 @app.route('/add_room', methods=['POST'])
 def add_room():
@@ -204,6 +263,7 @@ def add_room():
     texture_id = fields.Int(required=True)
     name = fields.Str(required=True)
     uuid = fields.Str(required=True)
+    floor_id = fields.Int(required=True)
     :return {'result_code': 0, 'error_message': '', 'room_id': room.id}
     """
     if check_auth_header_secret():
@@ -234,6 +294,7 @@ def update_room():
     id = fields.Int(required=True)
     texture_id = fields.Int(required=True)
     name = fields.Str(required=True)
+    floor_id = fields.Int(required=True)
     :return: {'result_code': 0, 'error_message': '', 'room_id': room.id}
     """
     if check_auth_header_secret():

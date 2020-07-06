@@ -200,10 +200,11 @@ class Room(db.Model):
     name = db.Column(db.String(64), index=True, unique=True, nullable=False)
     walls = db.relationship('Wall', backref='room', lazy='dynamic')
 
-    def __init__(self, user_id, texture_id, name):
+    def __init__(self, user_id, texture_id, name, floor_id):
         self.user_id = user_id
         self.texture_id = texture_id
         self.name = name
+        self.floor_id = floor_id
 
     def save(self):
         db.session.add(self)
