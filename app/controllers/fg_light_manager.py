@@ -63,7 +63,7 @@ def get_fg_light_by_id(data):
     fg_light_id = data.get('id')
     user_id = get_user_id(uuid=uuid)
     if user_id:
-        fg_light = db.session.query(FgLight).get(fg_light_id).first()
+        fg_light = db.session.query(FgLight).get(fg_light_id)
         if fg_light:
             fg_light_dict = fg_light.to_dict()
             return jsonify(
@@ -84,13 +84,13 @@ def update_fg_light_by_id(data):
     z_pos = data.get('z_pos')
     user_id = get_user_id(uuid=uuid)
     if user_id:
-        fg_light = db.session.query(FgLight).get(fg_light_id).first()
+        fg_light = db.session.query(FgLight).get(fg_light_id)
         if fg_light:
             fg_light.color = color
             fg_light.x_pos = x_pos
             fg_light.y_pos = y_pos
             fg_light.z_pos = z_pos
-            fg_light = fg_light.update_fg_light()
+            fg_light.update_fg_light()
             return generate_fg_light_updated_successfully_response(fg_light)
         else:
             return generate_fg_light_not_found_response(fg_light_id)
