@@ -60,7 +60,7 @@ def get_real_size_by_id(data):
     uuid = data.get('uuid')
     user_id = get_user_id(uuid=uuid)
     if user_id:
-        real_size = db.session.query(RealSize).get(real_size_id).first()
+        real_size = db.session.query(RealSize).get(real_size_id)
         if real_size:
             real_size_dict = real_size.to_dict()
             return jsonify(
@@ -80,11 +80,11 @@ def update_real_size_by_id(data):
     height = data.get('height')
     user_id = get_user_id(uuid=uuid)
     if user_id:
-        real_size = db.session.query(RealSize).get(real_size_id).first()
+        real_size = db.session.query(RealSize).get(real_size_id)
         if real_size:
             real_size.width = width
             real_size.height = height
-            real_size = real_size.update_real_size()
+            real_size.update_real_size()
             return generate_real_size_updated_successfully_response(real_size)
         else:
             return generate_real_size_not_found_response(real_size_id)
