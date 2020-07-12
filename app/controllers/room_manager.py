@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, json
 
 from app import db
 from app.config.constants import ErrorCodes
@@ -15,28 +15,36 @@ delete_room_by_id_schema = DeleteRoomByIdSchema()
 
 
 def generate_user_not_login_response():
-    return jsonify(create_error_response(ErrorCodes.ERROR_CODE_USER_NOT_LOGGED_IN, 'User not logged in'))
+    return json.dumps(create_error_response(ErrorCodes.ERROR_CODE_USER_NOT_LOGGED_IN, 'User not logged in'))
 
 
-def generate_room_not_found_response(id):
-    return jsonify(create_error_response(ErrorCodes.ERROR_CODE_ROOM_NOT_FOUND, 'Room not found: ' + id))
+def generate_room_name_already_exist_response(name):
+    return json.dumps(
+        create_error_response(ErrorCodes.ERROR_CODE_ROOM_ALREADY_EXIST, 'Room ' + name + ' already exist'))
+
+
+def generate_room_not_found_response(room_id):
+    return json.dumps(create_error_response(ErrorCodes.ERROR_CODE_ROOM_NOT_FOUND, 'Room not found: ' + str(room_id)))
 
 
 def generate_room_contains_walls_response(room_id):
-    return jsonify(create_error_response(ErrorCodes.ERROR_CODE_ROOM_CONTAINS_WALLS, 'Room ' + room_id + ' contains \
+    return json.dumps(create_error_response(ErrorCodes.ERROR_CODE_ROOM_CONTAINS_WALLS, 'Room ' + str(room_id) + ' contains \
     walls and cant be removed'))
 
 
 def generate_room_updated_successfully_response(room):
-    return jsonify({'result_code': ErrorCodes.ERROR_CODE_SUCCESS.value, 'error_message': '', 'room_id': room.id})
+    return json.dumps(
+        {'result_code': ErrorCodes.ERROR_CODE_SUCCESS.value, 'error_message': '', 'room_id': str(room.id)})
 
 
 def generate_room_created_success_response(room):
-    return jsonify({'result_code': ErrorCodes.ERROR_CODE_SUCCESS.value, 'error_message': '', 'room_id': room.id})
+    return json.dumps(
+        {'result_code': ErrorCodes.ERROR_CODE_SUCCESS.value, 'error_message': '', 'room_id': str(room.id)})
 
 
 def generate_room_deleted_successfully_response(room):
-    return jsonify({'result_code': ErrorCodes.ERROR_CODE_SUCCESS.value, 'error_message': '', 'room_id': room.id})
+    return json.dumps(
+        {'result_code': ErrorCodes.ERROR_CODE_SUCCESS.value, 'error_message': '', 'room_id': str(room.id)})
 
 
 @validate_schema(add_room_schema)
@@ -44,10 +52,14 @@ def add_new_room(data):
     uuid = data.get('uuid')
     name = data.get('name')
     texture_id = data.get('texture_id')
+    floor_id = data.get('floor_id')
     user_id = get_user_id(uuid=uuid)
     if user_id:
-        room = Room(user_id=user_id, texture_id=texture_id, name=name)
-        room.save()
+        room = Room(user_id=user_id, texture_id=texture_id, name=name, floor_id=floor_id)
+        try:
+            room.save()
+        except Exception as err:
+            return generate_room_name_already_exist_response(name)
         return generate_room_created_success_response(room)
     else:
         return generate_user_not_login_response()
@@ -121,7 +133,7 @@ def get_room_by_id(data):
     user_id = get_user_id(uuid=uuid)
     if user_id:
         # Get Room
-        room = db.session.query(Room).get(id).first()
+        room = db.session.query(Room).get(id)
         if room:
             room_dict = room.to_dict()
             return jsonify(
@@ -140,11 +152,11 @@ def update_room_by_id(data):
     texture_id = data.get('texture_id')
     user_id = get_user_id(uuid=uuid)
     if user_id:
-        room = db.session.query(Room).get(room_id).first()
+        room = db.session.query(Room).get(room_id)
         if room:
             room.name = name
             room.texture_id = texture_id
-            room = room.update_room()
+            room.update_room()
             return generate_room_updated_successfully_response(room)
         else:
             generate_room_not_found_response(room_id)
