@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, json
 
 from app import db
 from app.config.constants import ErrorCodes
@@ -15,28 +15,28 @@ delete_wall_by_id_schema = DeleteWallByIdSchema()
 
 
 def generate_user_not_login_response():
-    return jsonify(create_error_response(ErrorCodes.ERROR_CODE_USER_NOT_LOGGED_IN, 'User not logged in'))
+    return json.dumps(create_error_response(ErrorCodes.ERROR_CODE_USER_NOT_LOGGED_IN, 'User not logged in'))
 
 
 def generate_wall_not_found_response(wall_id):
-    return jsonify(create_error_response(ErrorCodes.ERROR_CODE_WALL_NOT_FOUND, 'Wall not found: ' + wall_id))
+    return json.dumps(create_error_response(ErrorCodes.ERROR_CODE_WALL_NOT_FOUND, 'Wall not found: ' + wall_id))
 
 
 def generate_wall_contains_paintings_response(wall_id):
-    return jsonify(create_error_response(ErrorCodes.ERROR_CODE_WALL_CONTAINS_PAINTINGS, 'Wall ' + wall_id + ' contains \
+    return json.dumps(create_error_response(ErrorCodes.ERROR_CODE_WALL_CONTAINS_PAINTINGS, 'Wall ' + wall_id + ' contains \
         paintings and cant be removed'))
 
 
 def generate_wall_updated_successfully_response(wall):
-    return jsonify({'result_code': ErrorCodes.ERROR_CODE_SUCCESS.value, 'error_message': '', 'wall_id': wall.id})
+    return json.dumps({'result_code': ErrorCodes.ERROR_CODE_SUCCESS.value, 'error_message': '', 'wall_id': str(wall.id)})
 
 
 def generate_wall_deleted_successfully_response(wall):
-    return jsonify({'result_code': ErrorCodes.ERROR_CODE_SUCCESS.value, 'error_message': '', 'wall_id': wall.id})
+    return json.dumps({'result_code': ErrorCodes.ERROR_CODE_SUCCESS.value, 'error_message': '', 'wall_id': str(wall.id)})
 
 
 def generate_wall_created_success_response(wall):
-    return jsonify({'result_code': ErrorCodes.ERROR_CODE_SUCCESS.value, 'error_message': '', 'wall_id': wall.id})
+    return json.dumps({'result_code': ErrorCodes.ERROR_CODE_SUCCESS.value, 'error_message': '', 'wall_id': str(wall.id)})
 
 
 @validate_schema(add_wall_schema)
@@ -63,7 +63,7 @@ def get_wall_by_id(data):
     wall_id = data.get('id')
     user_id = get_user_id(uuid=uuid)
     if user_id:
-        wall = db.session.query(Wall).get(wall_id).first()
+        wall = db.session.query(Wall).get(wall_id)
         if wall:
             wall_dict = wall.to_dict()
             return jsonify(
@@ -137,14 +137,14 @@ def update_wall_by_id(data):
     z_pos = data.get('z_pos')
     user_id = get_user_id(uuid=uuid)
     if user_id:
-        wall = db.session.query(Wall).get(wall_id).first()
+        wall = db.session.query(Wall).get(wall_id)
         if wall:
             wall.name = name
             wall.texture_id = texture_id
             wall.x_pos = x_pos
             wall.y_pos = y_pos
             wall.z_pos = z_pos
-            wall = wall.update_wall()
+            wall.update_wall()
             return generate_wall_updated_successfully_response(wall)
         else:
             return generate_wall_not_found_response(wall_id)
@@ -158,9 +158,9 @@ def delete_wall_by_id(data):
     wall_id = data.get('id')
     user_id = get_user_id(uuid=uuid)
     if user_id:
-        wall = db.session.query(Wall).get(wall_id).first()
+        wall = db.session.query(Wall).get(wall_id)
         if wall:
-            paintings = db.session.query(Painting).filter_by(wall_id=wall_id)
+            paintings = db.session.query(Painting).filter_by(wall_id=wall_id).all()
             if paintings and len(paintings) > 0:
                 return generate_wall_contains_paintings_response(wall_id)
             else:
