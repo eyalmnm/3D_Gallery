@@ -134,7 +134,7 @@ def get_painting_by_id(data):
     painting_id = data.get('id')
     user_id = get_user_id(uuid=uuid)
     if user_id:
-        painting = db.session.query(Painting).get(painting_id).first()
+        painting = db.session.query(Painting).get(painting_id)
         if painting:
             painting_dict = painting.to_dict()
             return jsonify(
@@ -147,7 +147,7 @@ def get_painting_by_id(data):
 
 
 
-@validate_schema(UpdatePaintingByIdSchema)
+@validate_schema(update_painting_by_id_schema)
 def update_painting_by_id(data):
     uuid = data.get('uuid')
     painting_id = data.get('id')
@@ -158,14 +158,14 @@ def update_painting_by_id(data):
     z_pos = data.get('z_pos')
     user_id = get_user_id(uuid=uuid)
     if user_id:
-        painting = db.session.query(Painting).get(painting_id).first()
+        painting = db.session.query(Painting).get(painting_id)
         if painting:
             painting.name = name
             painting.detail = detail
             painting.x_pos = x_pos
             painting.y_pos = y_pos
             painting.z_pos = z_pos
-            painting = painting.update_painting()
+            painting.update_painting()
             return generate_painting_updated_successfully_response(painting)
         else:
             return generate_painting_not_found_response(painting_id)
