@@ -199,7 +199,7 @@ def login_remotely():
 
 
 # ==================================   Floor  ==================================
-@app.route('/add_room', methods=['POST'])
+@app.route('/add_floor', methods=['POST'])
 def add_floor():
     """
     name = fields.Str(required=True)
