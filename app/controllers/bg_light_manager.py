@@ -79,11 +79,11 @@ def update_bg_light_by_id(data):
     color = data.get('color')
     user_id = get_user_id(uuid=uuid)
     if user_id:
-        bg_light = db.session.query(BgLight).get(bg_light_id).first()
+        bg_light = db.session.query(BgLight).get(bg_light_id)
         if bg_light:
             bg_light.width = width
             bg_light.color = color
-            bg_light = bg_light.update_bg_light()
+            bg_light.update_bg_light()
             return generate_bg_light_updated_successfully_response(bg_light)
         else:
             return generate_bg_light_not_found_response(bg_light_id)
