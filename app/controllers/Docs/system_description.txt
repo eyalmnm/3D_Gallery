@@ -222,7 +222,7 @@ Route Table:
     Header:
         Content-Type: application/json
     Output:
-            1 - {'result_code': 0, 'error_message': '', 'paintingData': {
+            1 - {'result_code': 0, 'error_message': '', 'floorData': {
                     'Id': Integer,
                     'user_id': Integer,
                     'name': String,
@@ -261,381 +261,34 @@ Route Table:
 
 
 
-***   Texture   ***
-    @app.route('/add_texture', methods=['POST'])
-    Input:
-        uuid = fields.Str(required=True)
-        src = fields.Str(required=True)
-        width = fields.Float(required=True)
-        height = fields.Float(required=True)
-    Header:
-        Content-Type: application/json
-    Output:
-        1 - {'result_code': 0, 'error_message': '', 'texture_id': id}
-        2 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-        3 - 'unknown package!!!'
-
-
-	@app.route('/get_texture', methods=['POST', 'GET'])
-    	Input:
-    		uuid = fields.Str(required=True)
-    		id = fields.Int(required=True)
-    Header:
-		    Content-Type: application/json
-	Output:
-        1 - {'result_code': 0, 'error_message': '', 'textureData': {'id': Integer, 'src': String, 'width': DECIMAL, 'height': DECIMAL}}
-        2 - {'result_code': 1100, 'error_message': 'error code texture not found', 'error_details': ''texture not found: id'}
-        3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-        4 - 'unknown package!!!'
-
-
-	@app.route('/update_texture', methods=['PUT'])
-	Input:
-        uuid = fields.Str(required=True)
-        id = fields.Int(required=True)
-        src = fields.Str(required=True)
-        width = fields.Float(required=True)
-        height = fields.Float(required=True)
-    Header:
-		Content-Type: application/json
-	Output: 
-		1 - {'result_code': 0, 'error_message': '', 'texture_id': id}
-		2 - {'result_code': 1100, 'error_message': 'error code texture not found', 'error_details': ''texture not found: id'}
-		3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-		4 - 'unknown package!!!'
-
-
-	@app.route('/delete_texture', methods=['DELETE'])
-	Input:
-        uuid = fields.Str(required=True)
-        id = fields.Int(required=True)
-    Header:
-		Content-Type: application/json {'result_code': 0, 'error_message': '', 'texture_id': texture.id}
-	Output: 
-		1 - {'result_code': 0, 'error_message': '', 'texture_id': id}
-		2 - {'result_code': 1100, 'error_message': 'error code texture not found', 'error_details': ''texture not found: id'}
-		3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-		4 - 'unknown package!!!'
-
-
-		
-	***   Icon   ***
-        @app.route('/add_icon', methods=['POST'])
+	***   Room   ***
+        @app.route('/add_room', methods=['POST'])
         Input:
-            uuid = fields.Str(required=True)
-            user_id = fields.Int(required=True)
-            src = fields.Str(required=True)
-            width = fields.Float(required=True)
-            height = fields.Float(required=True)
-        Header:
-            Content-Type: application/json
-        Output: 
-            1 - {'result_code': 0, 'error_message': '', 'icon_id': id}
-            2 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            3 - 'unknown package!!!'
-
-
-        @app.route('/get_icon', methods=['POST', 'GET'])
-        Input:
-            uuid = fields.Str(required=True)
-            id = fields.Int(required=True)
-        Header:
-            Content-Type: application/json
-        Output:
-            1 - {'result_code': 0, 'error_message': '', 'iconData': {'id': Integer, 'user_id': Integer, 'src': String, 'width': DECIMAL, 'height': DECIMAL}})
-            2 - {'result_code': 1000, 'error_message': 'error code icon not found', 'error_details': ''icon not found: id'}
-            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            4 - 'unknown package!!!'
-
-
-        @app.route('/update_icon', methods=['PUT'])
-        Input:
-            uuid = fields.Str(required=True)
-            id = fields.Int(required=True)
-            src = fields.Str(required=True)
-            width = fields.Float(required=True)
-            height = fields.Float(required=True)
-        Header:
-            Content-Type: application/json
-        Output:
-            1 - {'result_code': 0, 'error_message': '', 'icon_id': id}
-            2 - {'result_code': 1000, 'error_message': 'error code icon not found', 'error_details': ''icon not found: id'}
-            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            4 - 'unknown package!!!'
-
-
-        @app.route('/delete_icon', methods=['DELETE'])
-        Input:
-            uuid = fields.Str(required=True)
-            id = fields.Int(required=True)
-        Header:
-            Content-Type: application/json
-        Output: 
-            1 - {'result_code': 0, 'error_message': '', 'icon_id': id}
-            2 - {'result_code': 1000, 'error_message': 'error code icon not found', 'error_details': ''icon not found: id'}
-            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            4 - 'unknown package!!!'
-
-
-
-	***   FG Light   ***
-        @app.route('/add_fg_light', methods=['POST'])
-        Input:
-            uuid = fields.Str(required=True)
-            painting_id = fields.Int(required=True)
-            color = fields.Int(required=True)
-            x_pos = fields.Float(required=True)
-            y_pos = fields.Float(required=True)
-            z_pos = fields.Float(required=True)
-        Header:
-            Content-Type: application/json
-        Output: 
-            1 - {'result_code': 0, 'error_message': '', 'fg_light_id': id}
-            2 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            3 - 'unknown package!!!'
-
-
-        @app.route('/get_fg_light', methods=['POST', 'GET'])
-        Input:
-            uuid = fields.Str(required=True)
-            id = fields.Int(required=True)
-        Header:
-            Content-Type: application/json
-        Output:
-            1 - {'result_code': 0, 'error_message': '', 'fgLightData': {'id':Integer, 'painting_id': Integer, 'color': String, 'x_pos': DECIMAL, 'y_pos': DECIMAL, 'z_pos': DECIMAL}}
-            2 - {'result_code': 900, 'error_message': 'error code fg light not found', 'error_details': 'Fg Light not found: id'}
-            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            4 - 'unknown package!!!'
-
-
-        @app.route('/update_fg_light', methods=['PUT'])
-        Input:
-            uuid = fields.Str(required=True)
-            id = fields.Int(required=True)
-            color = fields.Int(required=True)
-            x_pos = fields.Float(required=True)
-            y_pos = fields.Float(required=True)
-            z_pos = fields.Float(required=True)
-        Header:
-            Content-Type: application/json
-        Output:
-            1 - {'result_code': 0, 'error_message': '', 'fg_light_id': id}
-            2 - {'result_code': 900, 'error_message': 'error code fg light not found', 'error_details': 'Fg Light not found: id'}
-            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            4 - 'unknown package!!!'
-
-
-        @app.route('/delete_fg_light', methods=['DELETE'])
-        Input:
-            uuid = fields.Str(required=True)
-            id = fields.Int(required=True)
-        Header:
-            Content-Type: application/json
-        Output:
-            1 - {'result_code': 0, 'error_message': '', 'fg_light_id': id}
-            2 - {'result_code': 900, 'error_message': 'error code fg light not found', 'error_details': 'Fg Light not found: id'}
-            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            4 - 'unknown package!!!'
-
-
-
-	***   BG Light   ***
-        @app.route('/add_bg_light', methods=['POST'])
-        Input:
-            uuid = fields.Str(required=True)
-            painting_id = fields.Int(required=True)
-            width = fields.Float(required=True)
-            color = fields.Int(required=True)
-        Header:
-            Content-Type: application/json
-        Output:
-            1 - {'result_code': 0, 'error_message': '', 'bg_light_id': id}
-            2 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            3 - 'unknown package!!!'
-
-
-        @app.route('/get_bg_light', methods=['POST', 'GET'])
-        Input:
-            uuid = fields.Str(required=True)
-            id = fields.Int(required=True)
-        Header:
-            Content-Type: application/json
-        Output: 
-            1 - {'result_code': 0, 'error_message': '', 'bgLightData': {'id': Integer, 'painting_id': Integer, 'width': DECIMAL, 'color': String}} 
-            2 - {'result_code': 800, 'error_message': 'error code bg light not found', 'error_details': 'Bg Light not found: id'}
-            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            4 - 'unknown package!!!'
-
-
-        @app.route('/update_bg_light', methods=['PUT'])
-        Input:
-            uuid = fields.Str(required=True)
-            id = fields.Int(required=True)
-            width = fields.Float(required=True)
-            color = fields.Int(required=True)
-        Header:
-            Content-Type: application/json
-        Output:  
-            1 - {'result_code': 0, 'error_message': '', 'bg_light_id': id}
-            2 - {'result_code': 800, 'error_message': 'error code bg light not found', 'error_details': 'Bg Light not found: id'}
-            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            4 - 'unknown package!!!'
-
-
-        @app.route('/delete_gb_light', methods=['DELETE'])
-        Input:
-            uuid = fields.Str(required=True)
-            id = fields.Int(required=True)
-        Header:
-            Content-Type: application/json
-        Output:   
-            1 - {'result_code': 0, 'error_message': '', 'bg_light_id': id}
-            2 - {'result_code': 800, 'error_message': 'error code bg light not found', 'error_details': 'Bg Light not found: id'}
-            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            4 - 'unknown package!!!'
-
-
-
-	***   Pic Size   ***
-        @app.route('/add_pic_size', methods=['POST'])
-        Input:
-            uuid = fields.Str(required=True)
-            painting_id = fields.Int(required=True)
-            width = fields.Float(required=True)
-            height = fields.Float(required=True)
-        Header:
-            Content-Type: application/json
-        Output: 
-            1 - {'result_code': 0, 'error_message': '', 'pic_size_id': id}
-            2 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            3 - 'unknown package!!!'
-
-
-        @app.route('/get_pic_size', methods=['POST', 'GET'])
-        Input:    
-            uuid = fields.Str(required=True)
-            id = fields.Int(required=True)
-        Header:
-            Content-Type: application/json
-        Output:
-            1 - {'result_code': 0, 'error_message': '', 'picSizeData':{'Id': Integer, 'painting_id': Integer, 'width': DECIMAL, 'height': DECIMAL}}
-            2 - {'result_code': 700, 'error_message': 'error code pic size not found', 'error_details': 'Pic Size not found: id'}
-            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            4 - 'unknown package!!!'
-
-
-        @app.route('/update_pic_size', methods=['PUT'])
-        Input:
-            uuid = fields.Str(required=True)
-            id = fields.Int(required=True)
-            width = fields.Float(required=True)
-            height = fields.Float(required=True)
-        Header:
-            Content-Type: application/json
-        Output: 
-            1 - {'result_code': 0, 'error_message': '', 'pic_size_id': id}
-            2 - {'result_code': 700, 'error_message': 'error code pic size not found', 'error_details': 'Pic Size not found: id'}
-            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            4 - 'unknown package!!!'
-
-
-        @app.route('/delete_pic_size', methods=['DELETE'])
-        Input:
-            uuid = fields.Str(required=True)
-            id = fields.Int(required=True)
-        Header:
-            Content-Type: application/json
-        Output: 
-            1 - {'result_code': 0, 'error_message': '', 'pic_size_id': id}
-            2 - {'result_code': 700, 'error_message': 'error code pic size not found', 'error_details': 'Pic Size not found: id'}
-            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            4 - 'unknown package!!!'
-
-
-
-	***   Real Size   ***
-        @app.route('/add_real_size', methods=['POST'])
-        Input:
-            uuid = fields.Str(required=True)
-            painting_id = fields.Int(required=True)
-            width = fields.Float(required=True)
-            height = fields.Float(required=True)
-        Header:
-            Content-Type: application/json
-        Output:
-            1 - {'result_code': 0, 'error_message': '', 'real_size_id': real_size.id}
-            2 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            3 - 'unknown package!!!'
-
-
-        @app.route('/get_real_size', methods=['POST', 'GET'])
-        Input:
-            uuid = fields.Str(required=True)
-            id = fields.Int(required=True)
-        Header:
-            Content-Type: application/json
-        Output:
-            1 - {'result_code': 0, 'error_message': '', 'realSizeData': {'Id': Integer, 'painting_id': Integer, 'width': DECIMAL, 'height': DECIMAL}}
-            2 - {'result_code': 600, 'error_message': 'error code real size not found', 'error_details': 'Real Size not found: id'}
-            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            4 - 'unknown package!!!'
-
-
-        @app.route('/update_real_size', methods=['PUT'])
-        Input:
-            uuid = fields.Str(required=True)
-            id = fields.Int(required=True)
-            width = fields.Float(required=True)
-            height = fields.Float(required=True)
-        Header:
-            Content-Type: application/json
-        Output:
-            1 - {'result_code': 0, 'error_message': '', 'real_size_id': id}
-            2 - {'result_code': 600, 'error_message': 'error code real size not found', 'error_details': 'Real Size not found: id'}
-            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            4 - 'unknown package!!!'
-
-
-        @app.route('/delete_real_size', methods=['DELETE'])
-        Input:
-            uuid = fields.Str(required=True)
-            id = fields.Int(required=True)
-        Header:
-            Content-Type: application/json
-        Output:
-            1 - {'result_code': 0, 'error_message': '', 'real_size_id': id}
-            2 - {'result_code': 600, 'error_message': 'error code real size not found', 'error_details': 'Real Size not found: id'}
-            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
-            4 - 'unknown package!!!'
-
-
-
-	***   Painting   ***
-        @app.route('/add_painting', methods=['POST'])
-        Input:
-            wall_id = fields.Int(required=True)
+            texture_id = fields.Int(required=True)
             name = fields.Str(required=True)
-            detail = fields.Str(required=False)
             uuid = fields.Str(required=True)
-            x_pos = fields.Float(required=True)
-            y_pos = fields.Float(required=True)
-            z_pos = fields.Float(required=True)
+            floor_id = fields.Int(required=True)
         Header:
             Content-Type: application/json
         Output:
-            1 - {'result_code': 0, 'error_message': '', 'painting_id': painting.id}
+            1 - {'result_code': 0, 'error_message': '', 'room_id': room.id}
             2 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
             3 - 'unknown package!!!'
 
 
-        @app.route('/get_painting', methods=['POST', 'GET'])
+        @app.route('/get_room', methods=['POST', 'GET'])
         Input:
             uuid = fields.Str(required=True)
             id = fields.Int(required=True)
         Header:
             Content-Type: application/json
-        Output: 
-            1 - {'result_code': 0, 'error_message': '', 'paintingData': {
+        Output:
+            1 - {'result_code': 0, 'error_message': '', 'roomData':{'Id': Integer, 'user_id': Integer, 'texture_id': Integer, 'name': String, 'walls':[{wallData}. {wallData}]}}
+                wallData = {'id': Integer, 'room_id': Integer, 'texture_id': Integer, 'name': String, 'x_pos': DECIMAL,
+                'y_pos': DECIMAL, 'z_pos': DECIMAL,
+                'paintings':[{paintingData}, {paintingData}]	0..n
+                }}
+                paintingData = {'result_code': 0, 'error_message': '', 'paintingData': {
                     'Id': Integer,
                     'wall_id': Integer,
                     'name': String,
@@ -652,39 +305,36 @@ Route Table:
                 picSizeData = {'Id': Integer, 'painting_id': Integer, 'width': DECIMAL, 'height': DECIMAL}
                 bgLightData =  {'id': Integer, 'painting_id': Integer, 'width': DECIMAL, 'color': String}
                 fgLightData =  {'id':Integer, 'painting_id': Integer, 'color': String, 'x_pos': DECIMAL, 'y_pos': DECIMAL, 'z_pos': DECIMAL}
-
-            2 - {'result_code': 500, 'error_message': 'error code painting not found', 'error_details': 'Painting not found: id'}
+            2 - {'result_code': 300, 'error_message': 'error code room not found', 'error_details': 'Room not found: id'}
             3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
             4 - 'unknown package!!!'
 
 
-        @app.route('/update_painting', methods=['PUT'])
+        @app.route('/update_room', methods=['PUT'])
         Input:
             uuid = fields.Str(required=True)
             id = fields.Int(required=True)
+            texture_id = fields.Int(required=True)
             name = fields.Str(required=True)
-            detail = fields.Str(required=False)
-            x_pos = fields.Float(required=True)
-            y_pos = fields.Float(required=True)
-            z_pos = fields.Float(required=True)
+            floor_id = fields.Int(required=True)
         Header:
             Content-Type: application/json
-        Output: 
-            1 - {'result_code': 0, 'error_message': '', 'painting_id': painting.id}
-            2 - {'result_code': 500, 'error_message': 'error code painting not found', 'error_details': 'Painting not found: id'}
+        Output:
+            1 - {'result_code': 0, 'error_message': '', 'room_id': id}
+            2 - {'result_code': 300, 'error_message': 'error code room not found', 'error_details': 'Room not found: id'}
             3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
             4 - 'unknown package!!!'
 
 
-        @app.route('/delete_painting', methods=['DELETE'])
+        @app.route('/delete_room', methods=['DELETE'])
         Input:
             uuid = fields.Str(required=True)
             id = fields.Int(required=True)
         Header:
             Content-Type: application/json
-        Output: 
-            1 - {'result_code': 0, 'error_message': '', 'painting_id': painting.id}
-            2 - {'result_code': 500, 'error_message': 'error code painting not found', 'error_details': 'Painting not found: id'}
+        Output:
+            1 - {'result_code': 0, 'error_message': '', 'room_id': id}
+            2 - {'result_code': 300, 'error_message': 'error code room not found', 'error_details': 'Room not found: id'}
             3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
             4 - 'unknown package!!!'
 
@@ -774,34 +424,32 @@ Route Table:
 
 
 
-	***   Room   ***
-        @app.route('/add_room', methods=['POST'])
+	***   Painting   ***
+        @app.route('/add_painting', methods=['POST'])
         Input:
-            texture_id = fields.Int(required=True)
+            wall_id = fields.Int(required=True)
             name = fields.Str(required=True)
+            detail = fields.Str(required=False)
             uuid = fields.Str(required=True)
-            floor_id = fields.Int(required=True)
+            x_pos = fields.Float(required=True)
+            y_pos = fields.Float(required=True)
+            z_pos = fields.Float(required=True)
         Header:
             Content-Type: application/json
         Output:
-            1 - {'result_code': 0, 'error_message': '', 'room_id': room.id}
+            1 - {'result_code': 0, 'error_message': '', 'painting_id': painting.id}
             2 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
             3 - 'unknown package!!!'
 
 
-        @app.route('/get_room', methods=['POST', 'GET'])
+        @app.route('/get_painting', methods=['POST', 'GET'])
         Input:
             uuid = fields.Str(required=True)
             id = fields.Int(required=True)
         Header:
             Content-Type: application/json
-        Output:
-            1 - {'result_code': 0, 'error_message': '', 'roomData':{'Id': Integer, 'user_id': Integer, 'texture_id': Integer, 'name': String, 'walls':[{wallData}. {wallData}]}}
-                wallData = {'id': Integer, 'room_id': Integer, 'texture_id': Integer, 'name': String, 'x_pos': DECIMAL,
-                'y_pos': DECIMAL, 'z_pos': DECIMAL,
-                'paintings':[{paintingData}, {paintingData}]	0..n
-                }}
-                paintingData = {'result_code': 0, 'error_message': '', 'paintingData': {
+        Output: 
+            1 - {'result_code': 0, 'error_message': '', 'paintingData': {
                     'Id': Integer,
                     'wall_id': Integer,
                     'name': String,
@@ -818,37 +466,390 @@ Route Table:
                 picSizeData = {'Id': Integer, 'painting_id': Integer, 'width': DECIMAL, 'height': DECIMAL}
                 bgLightData =  {'id': Integer, 'painting_id': Integer, 'width': DECIMAL, 'color': String}
                 fgLightData =  {'id':Integer, 'painting_id': Integer, 'color': String, 'x_pos': DECIMAL, 'y_pos': DECIMAL, 'z_pos': DECIMAL}
-            2 - {'result_code': 300, 'error_message': 'error code room not found', 'error_details': 'Room not found: id'}
+
+            2 - {'result_code': 500, 'error_message': 'error code painting not found', 'error_details': 'Painting not found: id'}
             3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
             4 - 'unknown package!!!'
 
 
-        @app.route('/update_room', methods=['PUT'])
+        @app.route('/update_painting', methods=['PUT'])
         Input:
             uuid = fields.Str(required=True)
             id = fields.Int(required=True)
-            texture_id = fields.Int(required=True)
             name = fields.Str(required=True)
+            detail = fields.Str(required=False)
+            x_pos = fields.Float(required=True)
+            y_pos = fields.Float(required=True)
+            z_pos = fields.Float(required=True)
         Header:
             Content-Type: application/json
-        Output:
-            1 - {'result_code': 0, 'error_message': '', 'room_id': id}
-            2 - {'result_code': 300, 'error_message': 'error code room not found', 'error_details': 'Room not found: id'}
+        Output: 
+            1 - {'result_code': 0, 'error_message': '', 'painting_id': painting.id}
+            2 - {'result_code': 500, 'error_message': 'error code painting not found', 'error_details': 'Painting not found: id'}
             3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
             4 - 'unknown package!!!'
 
 
-        @app.route('/delete_room', methods=['DELETE'])
+        @app.route('/delete_painting', methods=['DELETE'])
+        Input:
+            uuid = fields.Str(required=True)
+            id = fields.Int(required=True)
+        Header:
+            Content-Type: application/json
+        Output: 
+            1 - {'result_code': 0, 'error_message': '', 'painting_id': painting.id}
+            2 - {'result_code': 500, 'error_message': 'error code painting not found', 'error_details': 'Painting not found: id'}
+            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            4 - 'unknown package!!!'
+
+
+
+	***   Real Size   ***
+        @app.route('/add_real_size', methods=['POST'])
+        Input:
+            uuid = fields.Str(required=True)
+            painting_id = fields.Int(required=True)
+            width = fields.Float(required=True)
+            height = fields.Float(required=True)
+        Header:
+            Content-Type: application/json
+        Output:
+            1 - {'result_code': 0, 'error_message': '', 'real_size_id': real_size.id}
+            2 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            3 - 'unknown package!!!'
+
+
+        @app.route('/get_real_size', methods=['POST', 'GET'])
         Input:
             uuid = fields.Str(required=True)
             id = fields.Int(required=True)
         Header:
             Content-Type: application/json
         Output:
-            1 - {'result_code': 0, 'error_message': '', 'room_id': id}
-            2 - {'result_code': 300, 'error_message': 'error code room not found', 'error_details': 'Room not found: id'}
+            1 - {'result_code': 0, 'error_message': '', 'realSizeData': {'Id': Integer, 'painting_id': Integer, 'width': DECIMAL, 'height': DECIMAL}}
+            2 - {'result_code': 600, 'error_message': 'error code real size not found', 'error_details': 'Real Size not found: id'}
             3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
             4 - 'unknown package!!!'
+
+
+        @app.route('/update_real_size', methods=['PUT'])
+        Input:
+            uuid = fields.Str(required=True)
+            id = fields.Int(required=True)
+            width = fields.Float(required=True)
+            height = fields.Float(required=True)
+        Header:
+            Content-Type: application/json
+        Output:
+            1 - {'result_code': 0, 'error_message': '', 'real_size_id': id}
+            2 - {'result_code': 600, 'error_message': 'error code real size not found', 'error_details': 'Real Size not found: id'}
+            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            4 - 'unknown package!!!'
+
+
+        @app.route('/delete_real_size', methods=['DELETE'])
+        Input:
+            uuid = fields.Str(required=True)
+            id = fields.Int(required=True)
+        Header:
+            Content-Type: application/json
+        Output:
+            1 - {'result_code': 0, 'error_message': '', 'real_size_id': id}
+            2 - {'result_code': 600, 'error_message': 'error code real size not found', 'error_details': 'Real Size not found: id'}
+            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            4 - 'unknown package!!!'
+
+
+
+	***   Pic Size   ***
+        @app.route('/add_pic_size', methods=['POST'])
+        Input:
+            uuid = fields.Str(required=True)
+            painting_id = fields.Int(required=True)
+            width = fields.Float(required=True)
+            height = fields.Float(required=True)
+        Header:
+            Content-Type: application/json
+        Output: 
+            1 - {'result_code': 0, 'error_message': '', 'pic_size_id': id}
+            2 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            3 - 'unknown package!!!'
+
+
+        @app.route('/get_pic_size', methods=['POST', 'GET'])
+        Input:    
+            uuid = fields.Str(required=True)
+            id = fields.Int(required=True)
+        Header:
+            Content-Type: application/json
+        Output:
+            1 - {'result_code': 0, 'error_message': '', 'picSizeData':{'Id': Integer, 'painting_id': Integer, 'width': DECIMAL, 'height': DECIMAL}}
+            2 - {'result_code': 700, 'error_message': 'error code pic size not found', 'error_details': 'Pic Size not found: id'}
+            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            4 - 'unknown package!!!'
+
+
+        @app.route('/update_pic_size', methods=['PUT'])
+        Input:
+            uuid = fields.Str(required=True)
+            id = fields.Int(required=True)
+            width = fields.Float(required=True)
+            height = fields.Float(required=True)
+        Header:
+            Content-Type: application/json
+        Output: 
+            1 - {'result_code': 0, 'error_message': '', 'pic_size_id': id}
+            2 - {'result_code': 700, 'error_message': 'error code pic size not found', 'error_details': 'Pic Size not found: id'}
+            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            4 - 'unknown package!!!'
+
+
+        @app.route('/delete_pic_size', methods=['DELETE'])
+        Input:
+            uuid = fields.Str(required=True)
+            id = fields.Int(required=True)
+        Header:
+            Content-Type: application/json
+        Output: 
+            1 - {'result_code': 0, 'error_message': '', 'pic_size_id': id}
+            2 - {'result_code': 700, 'error_message': 'error code pic size not found', 'error_details': 'Pic Size not found: id'}
+            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            4 - 'unknown package!!!'
+
+
+
+	***   BG Light   ***
+        @app.route('/add_bg_light', methods=['POST'])
+        Input:
+            uuid = fields.Str(required=True)
+            painting_id = fields.Int(required=True)
+            width = fields.Float(required=True)
+            color = fields.Int(required=True)
+        Header:
+            Content-Type: application/json
+        Output:
+            1 - {'result_code': 0, 'error_message': '', 'bg_light_id': id}
+            2 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            3 - 'unknown package!!!'
+
+
+        @app.route('/get_bg_light', methods=['POST', 'GET'])
+        Input:
+            uuid = fields.Str(required=True)
+            id = fields.Int(required=True)
+        Header:
+            Content-Type: application/json
+        Output: 
+            1 - {'result_code': 0, 'error_message': '', 'bgLightData': {'id': Integer, 'painting_id': Integer, 'width': DECIMAL, 'color': String}} 
+            2 - {'result_code': 800, 'error_message': 'error code bg light not found', 'error_details': 'Bg Light not found: id'}
+            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            4 - 'unknown package!!!'
+
+
+        @app.route('/update_bg_light', methods=['PUT'])
+        Input:
+            uuid = fields.Str(required=True)
+            id = fields.Int(required=True)
+            width = fields.Float(required=True)
+            color = fields.Int(required=True)
+        Header:
+            Content-Type: application/json
+        Output:  
+            1 - {'result_code': 0, 'error_message': '', 'bg_light_id': id}
+            2 - {'result_code': 800, 'error_message': 'error code bg light not found', 'error_details': 'Bg Light not found: id'}
+            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            4 - 'unknown package!!!'
+
+
+        @app.route('/delete_gb_light', methods=['DELETE'])
+        Input:
+            uuid = fields.Str(required=True)
+            id = fields.Int(required=True)
+        Header:
+            Content-Type: application/json
+        Output:   
+            1 - {'result_code': 0, 'error_message': '', 'bg_light_id': id}
+            2 - {'result_code': 800, 'error_message': 'error code bg light not found', 'error_details': 'Bg Light not found: id'}
+            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            4 - 'unknown package!!!'
+
+
+
+	***   FG Light   ***
+        @app.route('/add_fg_light', methods=['POST'])
+        Input:
+            uuid = fields.Str(required=True)
+            painting_id = fields.Int(required=True)
+            color = fields.Int(required=True)
+            x_pos = fields.Float(required=True)
+            y_pos = fields.Float(required=True)
+            z_pos = fields.Float(required=True)
+        Header:
+            Content-Type: application/json
+        Output: 
+            1 - {'result_code': 0, 'error_message': '', 'fg_light_id': id}
+            2 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            3 - 'unknown package!!!'
+
+
+        @app.route('/get_fg_light', methods=['POST', 'GET'])
+        Input:
+            uuid = fields.Str(required=True)
+            id = fields.Int(required=True)
+        Header:
+            Content-Type: application/json
+        Output:
+            1 - {'result_code': 0, 'error_message': '', 'fgLightData': {'id':Integer, 'painting_id': Integer, 'color': String, 'x_pos': DECIMAL, 'y_pos': DECIMAL, 'z_pos': DECIMAL}}
+            2 - {'result_code': 900, 'error_message': 'error code fg light not found', 'error_details': 'Fg Light not found: id'}
+            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            4 - 'unknown package!!!'
+
+
+        @app.route('/update_fg_light', methods=['PUT'])
+        Input:
+            uuid = fields.Str(required=True)
+            id = fields.Int(required=True)
+            color = fields.Int(required=True)
+            x_pos = fields.Float(required=True)
+            y_pos = fields.Float(required=True)
+            z_pos = fields.Float(required=True)
+        Header:
+            Content-Type: application/json
+        Output:
+            1 - {'result_code': 0, 'error_message': '', 'fg_light_id': id}
+            2 - {'result_code': 900, 'error_message': 'error code fg light not found', 'error_details': 'Fg Light not found: id'}
+            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            4 - 'unknown package!!!'
+
+
+        @app.route('/delete_fg_light', methods=['DELETE'])
+        Input:
+            uuid = fields.Str(required=True)
+            id = fields.Int(required=True)
+        Header:
+            Content-Type: application/json
+        Output:
+            1 - {'result_code': 0, 'error_message': '', 'fg_light_id': id}
+            2 - {'result_code': 900, 'error_message': 'error code fg light not found', 'error_details': 'Fg Light not found: id'}
+            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            4 - 'unknown package!!!'
+
+
+		
+	***   Icon   ***
+        @app.route('/add_icon', methods=['POST'])
+        Input:
+            uuid = fields.Str(required=True)
+            user_id = fields.Int(required=True)
+            src = fields.Str(required=True)
+            width = fields.Float(required=True)
+            height = fields.Float(required=True)
+        Header:
+            Content-Type: application/json
+        Output: 
+            1 - {'result_code': 0, 'error_message': '', 'icon_id': id}
+            2 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            3 - 'unknown package!!!'
+
+
+        @app.route('/get_icon', methods=['POST', 'GET'])
+        Input:
+            uuid = fields.Str(required=True)
+            id = fields.Int(required=True)
+        Header:
+            Content-Type: application/json
+        Output:
+            1 - {'result_code': 0, 'error_message': '', 'iconData': {'id': Integer, 'user_id': Integer, 'src': String, 'width': DECIMAL, 'height': DECIMAL}})
+            2 - {'result_code': 1000, 'error_message': 'error code icon not found', 'error_details': ''icon not found: id'}
+            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            4 - 'unknown package!!!'
+
+
+        @app.route('/update_icon', methods=['PUT'])
+        Input:
+            uuid = fields.Str(required=True)
+            id = fields.Int(required=True)
+            src = fields.Str(required=True)
+            width = fields.Float(required=True)
+            height = fields.Float(required=True)
+        Header:
+            Content-Type: application/json
+        Output:
+            1 - {'result_code': 0, 'error_message': '', 'icon_id': id}
+            2 - {'result_code': 1000, 'error_message': 'error code icon not found', 'error_details': ''icon not found: id'}
+            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            4 - 'unknown package!!!'
+
+
+        @app.route('/delete_icon', methods=['DELETE'])
+        Input:
+            uuid = fields.Str(required=True)
+            id = fields.Int(required=True)
+        Header:
+            Content-Type: application/json
+        Output: 
+            1 - {'result_code': 0, 'error_message': '', 'icon_id': id}
+            2 - {'result_code': 1000, 'error_message': 'error code icon not found', 'error_details': ''icon not found: id'}
+            3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+            4 - 'unknown package!!!'
+
+
+
+***   Texture   ***
+    @app.route('/add_texture', methods=['POST'])
+    Input:
+        uuid = fields.Str(required=True)
+        src = fields.Str(required=True)
+        width = fields.Float(required=True)
+        height = fields.Float(required=True)
+    Header:
+        Content-Type: application/json
+    Output:
+        1 - {'result_code': 0, 'error_message': '', 'texture_id': id}
+        2 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+        3 - 'unknown package!!!'
+
+
+	@app.route('/get_texture', methods=['POST', 'GET'])
+    	Input:
+    		uuid = fields.Str(required=True)
+    		id = fields.Int(required=True)
+    Header:
+		    Content-Type: application/json
+	Output:
+        1 - {'result_code': 0, 'error_message': '', 'textureData': {'id': Integer, 'src': String, 'width': DECIMAL, 'height': DECIMAL}}
+        2 - {'result_code': 1100, 'error_message': 'error code texture not found', 'error_details': ''texture not found: id'}
+        3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+        4 - 'unknown package!!!'
+
+
+	@app.route('/update_texture', methods=['PUT'])
+	Input:
+        uuid = fields.Str(required=True)
+        id = fields.Int(required=True)
+        src = fields.Str(required=True)
+        width = fields.Float(required=True)
+        height = fields.Float(required=True)
+    Header:
+		Content-Type: application/json
+	Output: 
+		1 - {'result_code': 0, 'error_message': '', 'texture_id': id}
+		2 - {'result_code': 1100, 'error_message': 'error code texture not found', 'error_details': ''texture not found: id'}
+		3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+		4 - 'unknown package!!!'
+
+
+	@app.route('/delete_texture', methods=['DELETE'])
+	Input:
+        uuid = fields.Str(required=True)
+        id = fields.Int(required=True)
+    Header:
+		Content-Type: application/json {'result_code': 0, 'error_message': '', 'texture_id': texture.id}
+	Output: 
+		1 - {'result_code': 0, 'error_message': '', 'texture_id': id}
+		2 - {'result_code': 1100, 'error_message': 'error code texture not found', 'error_details': ''texture not found: id'}
+		3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+		4 - 'unknown package!!!'
 		
 		
 		

@@ -53,7 +53,7 @@ def update_room_texture():
     src = fields.Str(required=True)
     width = fields.Float(required=True)
     height = fields.Float(required=True)
-    :return {'result_code': 0, 'error_message': '', 'texture_id': room.id}
+    :return {'result_code': 0, 'error_message': '', 'texture_id': id}
     """
     if check_auth_header_secret():
         resp = update_default_room_texture()
@@ -82,7 +82,7 @@ def update_ceiling_texture():
     src = fields.Str(required=True)
     width = fields.Float(required=True)
     height = fields.Float(required=True)
-    :return {'result_code': 0, 'error_message': '', 'texture_id': room.id}
+    :return {'result_code': 0, 'error_message': '', 'texture_id': id}
     """
     if check_auth_header_secret():
         resp = update_default_ceiling_texture()
@@ -111,7 +111,7 @@ def update_wall_texture():
     src = fields.Str(required=True)
     width = fields.Float(required=True)
     height = fields.Float(required=True)
-    :return {'result_code': 0, 'error_message': '', 'texture_id': room.id}
+    :return {'result_code': 0, 'error_message': '', 'texture_id': id}
     """
     if check_auth_header_secret():
         resp = update_default_wall_texture()
@@ -825,7 +825,7 @@ def delete_texture():
         return 'unknown package!!!'
 
 
-# ==================================   Texture  ==================================
+# ==================================   Global Settings  ==================================
 @app.route('/save_global_settings', methods=['POST'])
 def save_global_settings():
     """
@@ -861,6 +861,7 @@ def get_global_settings_with_id():
 @app.route('/get_global_settings', methods=['POST', 'GET'])
 def get_global_settings():
     """
+    uuid = fields.Str(required=True)
     :return: {'result_code': 0, 'error_message': '', 'uuid': String, 'globalSettingsData': global_settings_dict}
     """
     if check_auth_header_secret():
