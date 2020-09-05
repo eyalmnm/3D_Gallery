@@ -150,12 +150,14 @@ def update_room_by_id(data):
     room_id = data.get('id')
     name = data.get('name')
     texture_id = data.get('texture_id')
+    floor_id = data.get('floor_id')
     user_id = get_user_id(uuid=uuid)
     if user_id:
         room = db.session.query(Room).get(room_id)
         if room:
             room.name = name
             room.texture_id = texture_id
+            room.floor_id = floor_id
             room.update_room()
             return generate_room_updated_successfully_response(room)
         else:
