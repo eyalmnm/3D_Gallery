@@ -101,6 +101,7 @@ class Floor(db.Model):
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)  # ForeignKey User table
     name = db.Column(db.String(128), index=True, unique=True, nullable=False)
     rooms = db.relationship('Room', backref='floor', lazy='dynamic')
+    textures = db.relationship('FloorTexture', backref='floor', lazy='dynamic')
 
     def __init__(self, user_id, name):
         self.user_id = user_id
@@ -124,6 +125,39 @@ class Floor(db.Model):
 
     def __repr__(self):
         return '<Floor {}>'.format(self.name)
+
+
+class FloorTexture(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    floor_id = db.Column(db.Integer(), db.ForeignKey('floor.id'), nullable=False)  # ForeignKey User table
+    src = db.Column(db.String(512), index=True, unique=False, nullable=False)
+    width = db.Column(db.Float(), index=False, nullable=False, default=0)
+    height = db.Column(db.Float(), index=False, nullable=False, default=0)
+
+    def __init__(self, src, floor_id, width, height):
+        self.src = src
+        self.floor_id = floor_id
+        self.width = width
+        self.height = height
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update_texture(self):
+        db.session.commit()
+
+    def delete_texture(self):
+        self.delete()
+        db.session.commit()
+
+    def to_dict(self):
+        serialized = dict((col, getattr(self, col)) for col in list(self.__table__.columns.keys()))
+        # serialized["device"] = self.device.to_dict() if self.device else None
+        return serialized
+
+    def __repr__(self):
+        return '<Texture {}>'.format(self.src)
 
 
 class Icon(db.Model):

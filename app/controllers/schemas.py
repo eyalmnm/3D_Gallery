@@ -18,6 +18,34 @@ class GetUserIdRemotelySchema(Schema):
     key = fields.Str(required=True)
 
 
+# ==================================   Floor Texture  ==================================
+class AddNewFloorTextureSchema(Schema):
+    uuid = fields.Str(required=True)
+    src = fields.Str(required=True)
+    width = fields.Float(required=True)
+    height = fields.Float(required=True)
+    floor_id = fields.Int(required=True)
+
+
+class GetFloorTextureByIdSchema(Schema):
+    uuid = fields.Str(required=True)
+    id = fields.Int(required=True)
+
+
+class GetFloorTextureByFloorIdSchema(Schema):
+    uuid = fields.Str(required=True)
+    floor_id = fields.Int(required=True)
+
+
+class UpdateFloorTextureByIdSchema(Schema):
+    uuid = fields.Str(required=True)
+    id = fields.Int(required=True)
+    src = fields.Str(required=True)
+    width = fields.Float(required=True)
+    height = fields.Float(required=True)
+    floor_id = fields.Int(required=True)
+
+
 # ==================================   Floor  ==================================
 class AddFloorSchema(Schema):
     name = fields.Str(required=True)

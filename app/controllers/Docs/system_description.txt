@@ -201,6 +201,67 @@ Route Table:
 
 
 
+***   Floor Texture   ***
+    @app.route('/add_floor_texture', methods=['POST'])
+    Input:
+        uuid = fields.Str(required=True)
+        src = fields.Str(required=True)
+        width = fields.Float(required=True)
+        height = fields.Float(required=True)
+        floor_id = fields.Int(required=True)
+    Header:
+        Content-Type: application/json
+    Output:
+        1 - {'result_code': 0, 'error_message': '', 'texture_id': id}
+        2 - {'result_code': 100, 'error_message': 'error code login failed', 'error_details': 'Username and Password not found'}
+        3 - 'unknown package!!!'
+
+
+    @app.route('/get_floor_texture', methods=['POST', 'GET'])
+    Input:
+        uuid = fields.Str(required=True)
+        id = fields.Int(required=True)
+    Header:
+        Content-Type: application/json
+    Output:
+        1 - {'result_code': 0, 'error_message': '', 'textureData': {'id': Integer, 'src': String, floor_id: Integer, 'width': DECIMAL, 'height': DECIMAL}}
+        2 - {'result_code': 1100, 'error_message': 'error code texture not found', 'error_details': ''texture not found: id'}
+        3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+        4 - 'unknown package!!!'
+
+
+    @app.route('/get_floor_texture_by_floor', methods=['POST', 'GET'])
+    Input:
+        uuid = fields.Str(required=True)
+        floor_id = fields.Int(required=True)
+    Header:
+        Content-Type: application/json
+    Output:
+        1 - {'result_code': 0, 'error_message': '', 'texturesData': [{floorTextureData}, {floorTextureData}...]}
+            floorTextureData = {'id': Integer, 'src': String, floor_id: Integer, 'width': DECIMAL, 'height': DECIMAL}
+        2 - {'result_code': 1301, 'error_message': 'error code floor not found', 'error_details': 'floor not found: id'}
+        3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+        4 - 'unknown package!!!'
+
+
+    @app.route('/update_floor_texture', methods=['PUT'])
+    Input:
+        id = fields.Int(required=True)
+        uuid = data.get('uuid')
+        src = data.get('src')
+        width = data.get('width')
+        height = data.get('height')
+        floor_id = data.get('floor_id')
+        user_id = get_user_id(uuid=uuid)
+    Header:
+        Content-Type: application/json
+    Output:
+        1 - {'result_code': 0, 'error_message': '', 'texture_id': id}
+        2 - {'result_code': 1100, 'error_message': 'error code texture not found', 'error_details': ''texture not found: id'}
+        3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+        4 - 'unknown package!!!'
+
+
 ***   Floor   ***
     @app.route('/add_floor', methods=['POST'])
     Input:

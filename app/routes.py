@@ -21,6 +21,8 @@ from app.controllers.texture_manager import add_new_texture, get_texture_by_id, 
     update_default_ceiling_texture, get_default_wall_texture, update_default_wall_texture
 from app.controllers.user_manager import user_login, user_register, get_user_id_remotely
 from app.controllers.wall_manager import add_new_wall, get_wall_by_id, update_wall_by_id, delete_wall_by_id
+from app.controllers.floor_texture_manager import add_new_floor_texture, get_floor_texture_by_id, \
+    get_floor_texture_by_floor_id, update_floor_texture_by_id
 
 
 # Ref: https://stackoverflow.com/questions/25860304/how-do-i-set-response-headers-in-flask
@@ -193,6 +195,71 @@ def login_remotely():
     """
     if check_auth_header_secret():
         resp = get_user_id_remotely()
+        return resp
+    else:
+        return 'unknown package!!!'
+
+
+# ==================================   Floor Texture  ==================================
+@app.route('/add_floor_texture', methods=['POST'])
+def add_floor_texture():
+    """
+    uuid = fields.Str(required=True)
+    src = fields.Str(required=True)
+    width = fields.Float(required=True)
+    height = fields.Float(required=True)
+    floor_id = fields.Int(required=True)
+    :return: {'result_code': 0, 'error_message': '', 'texture_id': id}
+    """
+    if check_auth_header_secret():
+        resp = add_new_floor_texture()
+        return resp
+    else:
+        return 'unknown package!!!'
+
+
+@app.route('/get_floor_texture', methods=['POST', 'GET'])
+def get_floor_texture():
+    """
+    uuid = fields.Str(required=True)
+    id = fields.Int(required=True)
+    :return: {'result_code': 0, 'error_message': '', 'textureData': {'id': Integer, 'src': String, floor_id: Integer, 'width': DECIMAL, 'height': DECIMAL}}
+    """
+    if check_auth_header_secret():
+        resp = get_floor_texture_by_id()
+        return resp
+    else:
+        return 'unknown package!!!'
+
+
+@app.route('/get_floor_texture_by_floor', methods=['POST', 'GET'])
+def get_floor_texture_by_floor():
+    """
+    uuid = fields.Str(required=True)
+    floor_id = fields.Int(required=True)
+    :return: {'result_code': 0, 'error_message': '', 'texturesData': [{floorTextureData}, {floorTextureData}...]}
+    """
+    if check_auth_header_secret():
+        resp = get_floor_texture_by_floor_id()
+        return resp
+    else:
+        return 'unknown package!!!'
+
+
+@app.route('/update_floor_texture', methods=['PUT'])
+def update_floor_texture():
+    """
+    id = fields.Int(required=True)
+    uuid = data.get('uuid')
+    src = data.get('src')
+    width = data.get('width')
+    height = data.get('height')
+    floor_id = data.get('floor_id')
+    user_id = get_user_id(uuid=uuid)
+    :return: {'result_code': 0, 'error_message': '', 'texture_id': id}
+    """
+    if check_auth_header_secret():
+        resp = update_floor_texture_by_id()
         return resp
     else:
         return 'unknown package!!!'
