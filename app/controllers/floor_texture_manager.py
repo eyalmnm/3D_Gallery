@@ -2,12 +2,12 @@ from flask import jsonify, json
 
 from app import db
 from app.config.constants import ErrorCodes
-from app.controllers.session_manager import get_user_id
-from app.utils.exception_util import create_error_response
-from app.models import FloorTexture
-from app.utils.schema_utils import validate_schema
 from app.controllers.schemas import AddNewFloorTextureSchema, GetFloorTextureByIdSchema, GetFloorTextureByFloorIdSchema, \
-    UpdateFloorTextureByIdSchema
+    UpdateFloorTextureByIdSchema, DeleteFloorTextureByIdSchema
+from app.controllers.session_manager import get_user_id
+from app.models import FloorTexture
+from app.utils.exception_util import create_error_response
+from app.utils.schema_utils import validate_schema
 
 # Ref: https://stackoverflow.com/questions/3070242/reduce-list-of-python-objects-to-dict-of-object-id-object
 
@@ -15,6 +15,7 @@ add_new_floor_texture_schema = AddNewFloorTextureSchema()
 get_floor_texture_by_id_schema = GetFloorTextureByIdSchema()
 get_floor_texture_by_floor_id_schema = GetFloorTextureByFloorIdSchema()
 update_floor_texture_by_id_schema = UpdateFloorTextureByIdSchema()
+delete_floor_texture_by_id_schema = DeleteFloorTextureByIdSchema()
 
 
 def generate_texture_created_success_response(texture):
@@ -23,6 +24,11 @@ def generate_texture_created_success_response(texture):
 
 
 def generate_texture_updated_successfully_response(texture):
+    return json.dumps(
+        {'result_code': ErrorCodes.ERROR_CODE_SUCCESS.value, 'error_message': '', 'texture_id': str(texture.id)})
+
+
+def generate_texture_deleted_successfully_response(texture):
     return json.dumps(
         {'result_code': ErrorCodes.ERROR_CODE_SUCCESS.value, 'error_message': '', 'texture_id': str(texture.id)})
 
@@ -108,6 +114,22 @@ def update_floor_texture_by_id(data):
             floor_texture.floor_id = floor_id
             floor_texture.update_texture()
             return generate_texture_updated_successfully_response(floor_texture)
+        else:
+            return generate_texture_not_found_response(id)
+    else:
+        return generate_user_not_login_response()
+
+
+@validate_schema(delete_floor_texture_by_id_schema)
+def delete_floor_texture_by_id(data):
+    uuid = data.get('uuid')
+    id = data.get('id')
+    user_id = get_user_id(uuid=uuid)
+    if user_id:
+        texture = db.session.query(FloorTexture).get(id)
+        if texture:
+            texture.delete_texture()
+            return generate_texture_deleted_successfully_response(texture)
         else:
             return generate_texture_not_found_response(id)
     else:

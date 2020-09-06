@@ -6,6 +6,8 @@ from app.controllers.bg_light_manager import add_new_bg_light, get_bg_light_by_i
 from app.controllers.fg_light_manager import add_new_fg_light, get_fg_light_by_id, update_fg_light_by_id, \
     delete_fg_light_by_id
 from app.controllers.floor_manager import add_new_floor, get_floor_by_id, update_floor_by_id, delete_floor_by_id
+from app.controllers.floor_texture_manager import add_new_floor_texture, get_floor_texture_by_id, \
+    get_floor_texture_by_floor_id, update_floor_texture_by_id, delete_floor_texture_by_id
 from app.controllers.global_settings_manager import save_new_global_settings, get_global_settings_by_id, \
     get_global_settings_data
 from app.controllers.icon_manager import add_new_icon, get_icon_by_id, update_icon_by_id, delete_icon_by_id
@@ -21,8 +23,6 @@ from app.controllers.texture_manager import add_new_texture, get_texture_by_id, 
     update_default_ceiling_texture, get_default_wall_texture, update_default_wall_texture
 from app.controllers.user_manager import user_login, user_register, get_user_id_remotely
 from app.controllers.wall_manager import add_new_wall, get_wall_by_id, update_wall_by_id, delete_wall_by_id
-from app.controllers.floor_texture_manager import add_new_floor_texture, get_floor_texture_by_id, \
-    get_floor_texture_by_floor_id, update_floor_texture_by_id
 
 
 # Ref: https://stackoverflow.com/questions/25860304/how-do-i-set-response-headers-in-flask
@@ -265,6 +265,20 @@ def update_floor_texture():
         return 'unknown package!!!'
 
 
+@app.route('/delete_floor_texture', methods=['DELETE'])
+def delete_floor_texture():
+    """
+    id = fields.Int(required=True)
+    uuid = data.get('uuid')
+    :return: {'result_code': 0, 'error_message': '', 'texture_id': id}
+    """
+    if check_auth_header_secret():
+        resp = delete_floor_texture_by_id()
+        return resp
+    else:
+        return 'unknown package!!!'
+
+
 # ==================================   Floor  ==================================
 @app.route('/add_floor', methods=['POST'])
 def add_floor():
@@ -300,7 +314,7 @@ def update_floor():
     name = fields.Str(required=True)
     uuid = fields.Str(required=True)
     id = fields.Int(required=True)
-    :return: {'result_code': 0, 'error_message': '', 'floor_id': floor.id}
+    :return: {'result_code': 0, 'error_message': '', 'floorData': floor_dict}
     """
     if check_auth_header_secret():
         resp = update_floor_by_id()

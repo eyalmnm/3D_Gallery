@@ -46,6 +46,11 @@ class UpdateFloorTextureByIdSchema(Schema):
     floor_id = fields.Int(required=True)
 
 
+class DeleteFloorTextureByIdSchema(Schema):
+    uuid = fields.Str(required=True)
+    id = fields.Int(required=True)
+
+
 # ==================================   Floor  ==================================
 class AddFloorSchema(Schema):
     name = fields.Str(required=True)

@@ -85,11 +85,16 @@ def update_floor_by_id(data):
         floor = db.session.query(Floor).get(id)
         if floor:
             floor.name = name
-            try:
-                floor.save()
-            except Exception as err:
-                return generate_floor_name_already_exist_response(name=name)
-            return generate_floor_updated_successfully_response(floor)
+            floor = floor.update_floor()
+            floor_dict = floor.to_dict
+            floor_dict = floor.to_dict()
+            return jsonify(
+                {'result_code': ErrorCodes.ERROR_CODE_SUCCESS.value, 'error_message': '', 'floorData': floor_dict})
+            # try:
+            #     floor.save()
+            # except Exception as err:
+            #     return generate_floor_name_already_exist_response(name=name)
+            # return generate_floor_updated_successfully_response(floor)
         else:
             return generate_floor_not_found_response(id)
     else:

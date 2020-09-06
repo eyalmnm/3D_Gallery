@@ -262,6 +262,18 @@ Route Table:
         4 - 'unknown package!!!'
 
 
+    @app.route('/delete_floor_texture', methods=['DELETE'])
+    Input:
+        id = fields.Int(required=True)
+        uuid = data.get('uuid')
+    Header:
+        Content-Type: application/json
+    Output:
+        1 - {'result_code': 0, 'error_message': '', 'texture_id': id}
+        2 - {'result_code': 1100, 'error_message': 'error code texture not found', 'error_details': ''texture not found: id'}
+		3 - {'result_code': 101, 'error_message': 'error code user not logged in', 'error_details': 'User not logged in'}
+		4 - 'unknown package!!!'
+
 ***   Floor   ***
     @app.route('/add_floor', methods=['POST'])
     Input:
@@ -302,7 +314,12 @@ Route Table:
     Header:
         Content-Type: application/json
     Output:
-        1 - {'result_code': 0, 'error_message': '', 'floor_id': id}
+        1 - {'result_code': 0, 'error_message': '', 'floorData': {
+                    'Id': Integer,
+                    'user_id': Integer,
+                    'name': String,
+                    'rooms': [{Room}, {Room}],	0..n
+                    }}
         2 - {'result_code': 1301, 'error_message': 'error code floor not found', 'error_details': ''floor not found: id'}
         3 - {'result_code': 100, 'error_message': 'error code login failed', 'error_details': 'Username and Password not found'}
         4 - 'unknown package!!!'
