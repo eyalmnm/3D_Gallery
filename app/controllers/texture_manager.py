@@ -168,7 +168,7 @@ def update_default_room_texture(data):
                 item_type=DefaultItemsIds.DEFAULT_ROOM_TEXTURE_ID.value).first()
             if texture_id:
                 texture = db.session.query(Texture).get(texture_id.item_id)
-                if texture != None:
+                if texture:
                     texture.src = src
                     texture.width = width
                     texture.height = height

@@ -85,8 +85,7 @@ def update_floor_by_id(data):
         floor = db.session.query(Floor).get(id)
         if floor:
             floor.name = name
-            floor = floor.update_floor()
-            floor_dict = floor.to_dict
+            floor.update_floor()
             floor_dict = floor.to_dict()
             return jsonify(
                 {'result_code': ErrorCodes.ERROR_CODE_SUCCESS.value, 'error_message': '', 'floorData': floor_dict})
